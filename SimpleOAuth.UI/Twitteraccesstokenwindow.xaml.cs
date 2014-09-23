@@ -1,7 +1,5 @@
-﻿using SimpleOAuth.UI.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,25 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SimpleOAuth.UI
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Twitteraccesstokenwindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Twitteraccesstokenwindow : Page
     {
-        public MainWindow()
+        public Twitteraccesstokenwindow()
         {
             InitializeComponent();
-            Navigator.NavigationService = mainFrame.NavigationService;
-            OAuthproviderwindow oauthwindow=new OAuthproviderwindow();
-            mainFrame.Navigate(oauthwindow); 
-           
         }
-       
-      
     }
 }

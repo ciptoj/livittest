@@ -22,7 +22,7 @@ using TweetSharp;
 
 namespace SimpleOAuth.UI.ViewModel
 {
-    public class TwosampleOAuthViewModel : INotifyPropertyChanged
+    public class TwosampleOAuthViewModel : BaseViewModel
     {
         private bool istwitter;
         private bool isgoogle;
@@ -33,6 +33,7 @@ namespace SimpleOAuth.UI.ViewModel
         private string googleclientsecret;
         private string twitterconsumerkey;
         private string twitterconsumersecret;
+
         public string SelectedProvider { get; set; }
 
         public bool IsTwitter
@@ -118,6 +119,9 @@ namespace SimpleOAuth.UI.ViewModel
                 OAuthRequestToken requestToken = service.GetRequestToken();
                 Uri uri = service.GetAuthorizationUri(requestToken);
                 Process.Start(uri.ToString());
+                //navigate to second page
+                Twitteraccesstokenwindow twitteraccesswindow = new Twitteraccesstokenwindow(); 
+                Navigator.NavigationService.Navigate(twitteraccesswindow); 
             }
         }
         /// <summary>
@@ -139,6 +143,11 @@ namespace SimpleOAuth.UI.ViewModel
         /// A behaviour of user selecting our provider dropdown
         /// </summary>
         public ICommand ProviderSelectedCommand { get; set; }
+        /// <summary>
+        /// a behaviour to change to next page for twitter
+        /// </summary>
+        public ICommand ChangetoSecondpageTwitterCommand { get; set; }
+
         public ObservableCollection<string> OAuthProviders
         {
             get
@@ -147,16 +156,6 @@ namespace SimpleOAuth.UI.ViewModel
             }
         }
 
-        #region INotifyPropertyChanged Members
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion INotifyPropertyChanged
+      
     }
 }

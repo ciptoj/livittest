@@ -1,0 +1,21 @@
+﻿<Page  x:Class="SimpleOAuth.UI.Twitteraccesstokenwindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Enter your PIN" Height="300" Width="300">
+    <StackPanel>
+        <Label Margin="10 0 10 0">Enter your PIN below and press load</Label>
+        <TextBox >
+            <TextBox.Text>
+                <Binding ElementName="PIN" Path="Text" UpdateSourceTrigger="PropertyChanged"/>
+            </TextBox.Text>
+        </TextBox>
+        <Button Command="{Binding PINenteredCommand}">Load</Button>
+        <DataGrid AutoGenerateColumns="false" ItemsSource="{Binding Twittertimeline}" Visibility="{Binding Path=Isdataloaded, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Text" Binding="{Binding Text}" ></DataGridTextColumn>
+                <DataGridTextColumn Header="User" Binding="{Binding User.ScreenName}" ></DataGridTextColumn>
+   
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</Page>

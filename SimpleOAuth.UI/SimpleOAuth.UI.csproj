@@ -146,6 +146,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Navigator.cs" />
+    <Compile Include="OAuthproviderWindow.xaml.cs">
+      <DependentUpon>OAuthproviderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TwitteraccesstokenWindow.xaml.cs">
+      <DependentUpon>TwitteraccesstokenWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\TwitterViewModel.cs" />
     <Compile Include="ViewModel\TwosampleOAuthViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +193,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OAuthproviderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TwitteraccesstokenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
