@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuth.UI", "SimpleOAuth.UI\SimpleOAuth.UI.csproj", "{A3D70340-7E74-4D6C-BCD3-BF29A2916612}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuth.Test", "SimpleOAuth.Test\SimpleOAuth.Test.csproj", "{290E8FC9-CE8C-4825-89E3-655A1C89CE76}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleOAuth.Core", "SimpleOAuth.Core\SimpleOAuth.Core.csproj", "{8EFF1622-AB85-465F-80F4-76FE5B932209}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{290E8FC9-CE8C-4825-89E3-655A1C89CE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{290E8FC9-CE8C-4825-89E3-655A1C89CE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{290E8FC9-CE8C-4825-89E3-655A1C89CE76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EFF1622-AB85-465F-80F4-76FE5B932209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EFF1622-AB85-465F-80F4-76FE5B932209}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EFF1622-AB85-465F-80F4-76FE5B932209}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EFF1622-AB85-465F-80F4-76FE5B932209}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
