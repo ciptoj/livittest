@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,25 +18,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TweetSharp;
 
 namespace SimpleOAuth.UI.ViewModel
 {
     public class TwosampleOAuthViewModel : INotifyPropertyChanged
     {
-        private bool isfacebook;
+        private bool istwitter;
         private bool isgoogle;
         private ObservableCollection<Bookshelf> books;
         private const string Googlebooks = "Google Books";
-        private const string Facebook = "Facebook";
+        private const string Twitter = "Twitter";
         private string googleclientID;
         private string googleclientsecret;
+        private string twitterconsumerkey;
+        private string twitterconsumersecret;
         public string SelectedProvider { get; set; }
-        public bool IsFacebook { get {
-            return isfacebook;
+
+        public bool IsTwitter
+        {
+            get
+            {
+                return istwitter;
             }
-            set {
-                isfacebook = value;
-                NotifyPropertyChanged("IsFacebook");
+            set
+            {
+                istwitter = value;
+                NotifyPropertyChanged("IsTwitter");
             }
         }
         public bool IsGoogle
@@ -50,22 +59,32 @@ namespace SimpleOAuth.UI.ViewModel
                 NotifyPropertyChanged("IsGoogle");
             }
         }
-        public TwosampleOAuthViewModel(string googleclientID, string googleclientsecret)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="googleclientID">Google client ID</param>
+        /// <param name="googleclientsecret">Google client secret</param>
+        public TwosampleOAuthViewModel(string googleclientID, string googleclientsecret, string twitterconsumerkey, string twitterconsumersecret)
         {
             this.googleclientID = googleclientID;
             this.googleclientsecret = googleclientsecret;
+            this.twitterconsumerkey = twitterconsumerkey;
+            this.twitterconsumersecret = twitterconsumersecret;
             this.ProviderSelectedCommand = DelegateCommand.FromAsyncHandler(OnProviderSelected, CanProceed);
         }
 
         private bool CanProceed()
         {
-            return true;
+            return !String.IsNullOrEmpty(this.SelectedProvider);
         }
-
-        private async Task<int> OnProviderSelected()
+        /// <summary>
+        /// When user select OAuth provider
+        /// </summary>
+        /// <returns></returns>
+        private async Task OnProviderSelected()
         {
-            IsFacebook = this.SelectedProvider == Facebook;
-            IsGoogle = !isfacebook;
+            IsTwitter = this.SelectedProvider == Twitter;
+            IsGoogle = !istwitter;
             if (this.SelectedProvider == Googlebooks)
             {
                 UserCredential credential;
@@ -92,9 +111,18 @@ namespace SimpleOAuth.UI.ViewModel
                 var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync();
                 Books = new ObservableCollection<Bookshelf>(bookshelves.Items);
             }
-            return 0;
+            else
+            {
+                //step 1
+                TwitterService service = new TwitterService(twitterconsumerkey, twitterconsumersecret);
+                OAuthRequestToken requestToken = service.GetRequestToken();
+                Uri uri = service.GetAuthorizationUri(requestToken);
+                Process.Start(uri.ToString());
+            }
         }
-
+        /// <summary>
+        /// Books data from Google
+        /// </summary>
         public ObservableCollection<Bookshelf> Books
         {
             get
@@ -107,12 +135,15 @@ namespace SimpleOAuth.UI.ViewModel
                 NotifyPropertyChanged("Books");
             }
         }
+        /// <summary>
+        /// A behaviour of user selecting our provider dropdown
+        /// </summary>
         public ICommand ProviderSelectedCommand { get; set; }
         public ObservableCollection<string> OAuthProviders
         {
             get
             {
-                return new ObservableCollection<string>() { Googlebooks, Facebook };
+                return new ObservableCollection<string>() { Googlebooks, Twitter };
             }
         }
 
@@ -125,6 +156,7 @@ namespace SimpleOAuth.UI.ViewModel
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
+
         #endregion INotifyPropertyChanged
     }
 }

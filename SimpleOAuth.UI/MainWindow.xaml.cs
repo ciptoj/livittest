@@ -24,7 +24,11 @@ namespace SimpleOAuth.UI
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new TwosampleOAuthViewModel(ConfigurationManager.AppSettings["googleClientID"], ConfigurationManager.AppSettings["googleClientSecret"]);
+            this.DataContext = new TwosampleOAuthViewModel(
+                ConfigurationManager.AppSettings["googleClientID"], 
+                ConfigurationManager.AppSettings["googleClientSecret"],
+                ConfigurationManager.AppSettings["twitterConsumerKey"], 
+                ConfigurationManager.AppSettings["twitterConsumerSecret"]);
         }
     }
 }
