@@ -1,5 +1,6 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Books.v1;
+using Google.Apis.Books.v1.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Microsoft.Practices.Prism.Commands;
@@ -21,13 +22,35 @@ namespace SimpleOAuth.UI.ViewModel
 {
     public class TwosampleOAuthViewModel : INotifyPropertyChanged
     {
-        private const string GoogleBooks = "Google Books";
+        private bool isfacebook;
+        private bool isgoogle;
+        private ObservableCollection<Bookshelf> books;
+        private const string Googlebooks = "Google Books";
         private const string Facebook = "Facebook";
         private string googleclientID;
         private string googleclientsecret;
         public string SelectedProvider { get; set; }
-
-        public TwosampleOAuthViewModel(string googleclientID,string googleclientsecret)
+        public bool IsFacebook { get {
+            return isfacebook;
+            }
+            set {
+                isfacebook = value;
+                NotifyPropertyChanged("IsFacebook");
+            }
+        }
+        public bool IsGoogle
+        {
+            get
+            {
+                return isgoogle;
+            }
+            set
+            {
+                isgoogle = value;
+                NotifyPropertyChanged("IsGoogle");
+            }
+        }
+        public TwosampleOAuthViewModel(string googleclientID, string googleclientsecret)
         {
             this.googleclientID = googleclientID;
             this.googleclientsecret = googleclientsecret;
@@ -41,21 +64,23 @@ namespace SimpleOAuth.UI.ViewModel
 
         private async Task<int> OnProviderSelected()
         {
-            if (this.SelectedProvider == GoogleBooks)
+            IsFacebook = this.SelectedProvider == Facebook;
+            IsGoogle = !isfacebook;
+            if (this.SelectedProvider == Googlebooks)
             {
                 UserCredential credential;
-            
-                    credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                        new ClientSecrets
-                          {
-                           
-                              ClientId =googleclientID,
-                              ClientSecret = googleclientsecret
-                          }
-                        ,
-                        new[] { BooksService.Scope.Books },
-                        "user", CancellationToken.None, new FileDataStore("Books.ListMyLibrary"));
-              
+
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    new ClientSecrets
+                      {
+
+                          ClientId = googleclientID,
+                          ClientSecret = googleclientsecret
+                      }
+                    ,
+                    new[] { BooksService.Scope.Books },
+                    "user", CancellationToken.None, new FileDataStore("Books.ListMyLibrary"));
+
 
                 // Create the service.
                 var service = new BooksService(new BaseClientService.Initializer()
@@ -65,16 +90,29 @@ namespace SimpleOAuth.UI.ViewModel
                     });
 
                 var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync();
+                Books = new ObservableCollection<Bookshelf>(bookshelves.Items);
             }
             return 0;
         }
-        public ICollectionView GoogleAPIs { get; set; }
+
+        public ObservableCollection<Bookshelf> Books
+        {
+            get
+            {
+                return books;
+            }
+            set
+            {
+                books = value;
+                NotifyPropertyChanged("Books");
+            }
+        }
         public ICommand ProviderSelectedCommand { get; set; }
         public ObservableCollection<string> OAuthProviders
         {
             get
             {
-                return new ObservableCollection<string>() { GoogleBooks, Facebook };
+                return new ObservableCollection<string>() { Googlebooks, Facebook };
             }
         }
 
