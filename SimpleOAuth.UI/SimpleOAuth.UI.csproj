@@ -138,27 +138,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Views\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Navigator.cs" />
-    <Compile Include="OAuthproviderWindow.xaml.cs">
+    <Compile Include="Models\Navigator.cs" />
+    <Compile Include="Models\TwitterrequesttokenModel.cs" />
+    <Compile Include="Views\OAuthproviderWindow.xaml.cs">
       <DependentUpon>OAuthproviderWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TwitteraccesstokenWindow.xaml.cs">
+    <Compile Include="Views\TwitteraccesstokenWindow.xaml.cs">
       <DependentUpon>TwitteraccesstokenWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="ViewModel\TwitterViewModel.cs" />
-    <Compile Include="ViewModel\TwosampleOAuthViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\TwitteraccesstokenViewModel.cs" />
+    <Compile Include="ViewModels\OAuthproviderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -192,15 +193,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OAuthproviderWindow.xaml">
+    <Page Include="Views\OAuthproviderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TwitteraccesstokenWindow.xaml">
+    <Page Include="Views\TwitteraccesstokenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

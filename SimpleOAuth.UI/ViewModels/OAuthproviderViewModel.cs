@@ -5,6 +5,7 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.ViewModel;
+using SimpleOAuth.UI.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +23,10 @@ using TweetSharp;
 
 namespace SimpleOAuth.UI.ViewModel
 {
-    public class TwosampleOAuthViewModel : BaseViewModel
+    /// <summary>
+    /// User landed oauth provider selection view model
+    /// </summary>
+    public class OAuthproviderViewModel : BaseViewModel
     {
         private bool istwitter;
         private bool isgoogle;
@@ -65,7 +69,9 @@ namespace SimpleOAuth.UI.ViewModel
         /// </summary>
         /// <param name="googleclientID">Google client ID</param>
         /// <param name="googleclientsecret">Google client secret</param>
-        public TwosampleOAuthViewModel(string googleclientID, string googleclientsecret, string twitterconsumerkey, string twitterconsumersecret)
+        /// <param name="twitterconsumerkey">Twitter consumer key</param>
+        ///   <param name="twitterconsumersecret">Twitter consumer secret</param>
+        public OAuthproviderViewModel(string googleclientID, string googleclientsecret, string twitterconsumerkey, string twitterconsumersecret)
         {
             this.googleclientID = googleclientID;
             this.googleclientsecret = googleclientsecret;
@@ -115,14 +121,21 @@ namespace SimpleOAuth.UI.ViewModel
             else
             {
                 //step 1
-                TwitterService service = new TwitterService(twitterconsumerkey, twitterconsumersecret);
-                OAuthRequestToken requestToken = service.GetRequestToken();
-                Uri uri = service.GetAuthorizationUri(requestToken);
-                Process.Start(uri.ToString());
+                var model = await GetTwitterRequestToken(twitterconsumerkey, twitterconsumersecret);
                 //navigate to second page
-                Twitteraccesstokenwindow twitteraccesswindow = new Twitteraccesstokenwindow(requestToken,service); 
+                Twitteraccesstokenwindow twitteraccesswindow = new Twitteraccesstokenwindow(model.requestToken,model.service); 
                 Navigator.NavigationService.Navigate(twitteraccesswindow); 
             }
+        }
+
+        private async Task<Twitterrequesttokenmodel> GetTwitterRequestToken(string twitterconsumerkey, string twitterconsumersecret)
+        {
+            Twitterrequesttokenmodel model=new Twitterrequesttokenmodel();
+            model.service = new TwitterService(twitterconsumerkey, twitterconsumersecret);
+            model.requestToken = model.service.GetRequestToken();
+            model.uri = model.service.GetAuthorizationUri(model.requestToken);
+            Process.Start(model.uri.ToString());
+            return model;
         }
         /// <summary>
         /// Books data from Google

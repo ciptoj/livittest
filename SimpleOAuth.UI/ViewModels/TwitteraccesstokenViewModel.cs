@@ -11,7 +11,10 @@ using TweetSharp;
 
 namespace SimpleOAuth.UI.ViewModel
 {
-    public class TwitterViewModel : BaseViewModel
+    /// <summary>
+    /// Twitter second page view model
+    /// </summary>
+    public class TwitteraccesstokenViewModel : BaseViewModel
     {
         private ObservableCollection<TwitterStatus> twittertimeline;
         private bool isdataloaded;
@@ -32,7 +35,7 @@ namespace SimpleOAuth.UI.ViewModel
         private OAuthRequestToken requestToken;
         public bool IsLoaded { get; set; }
         private TwitterService service;
-        public TwitterViewModel(OAuthRequestToken requestToken, TwitterService service)
+        public TwitteraccesstokenViewModel(OAuthRequestToken requestToken, TwitterService service)
         {
             this.service = service;
             this.requestToken = requestToken;
@@ -51,6 +54,10 @@ namespace SimpleOAuth.UI.ViewModel
                 NotifyPropertyChanged("Isdataloaded");
             }
         }
+        /// <summary>
+        /// behaviour when user click load
+        /// </summary>
+        /// <returns></returns>
         private async Task OnPINEntered()
         {
             OAuthAccessToken access = service.GetAccessToken(requestToken, PIN);

@@ -24,7 +24,7 @@ namespace SimpleOAuth.UI
         public Twitteraccesstokenwindow(OAuthRequestToken requestToken, TwitterService service)
         {
             InitializeComponent();
-            this.DataContext = new TwitterViewModel(requestToken, service);
+            this.DataContext = new TwitteraccesstokenViewModel(requestToken, service);
 
         }
     }

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SimpleOAuth.UI.ViewModel
 {
+    /// <summary>
+    /// Base view model
+    /// </summary>
     public abstract class BaseViewModel:INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members
