@@ -120,7 +120,7 @@ namespace SimpleOAuth.UI.ViewModel
                 Uri uri = service.GetAuthorizationUri(requestToken);
                 Process.Start(uri.ToString());
                 //navigate to second page
-                Twitteraccesstokenwindow twitteraccesswindow = new Twitteraccesstokenwindow(); 
+                Twitteraccesstokenwindow twitteraccesswindow = new Twitteraccesstokenwindow(requestToken,service); 
                 Navigator.NavigationService.Navigate(twitteraccesswindow); 
             }
         }

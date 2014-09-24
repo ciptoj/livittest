@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleOAuth.UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TweetSharp;
 
 namespace SimpleOAuth.UI
 {
@@ -19,9 +21,11 @@ namespace SimpleOAuth.UI
     /// </summary>
     public partial class Twitteraccesstokenwindow : Page
     {
-        public Twitteraccesstokenwindow()
+        public Twitteraccesstokenwindow(OAuthRequestToken requestToken, TwitterService service)
         {
             InitializeComponent();
+            this.DataContext = new TwitterViewModel(requestToken, service);
+
         }
     }
 }

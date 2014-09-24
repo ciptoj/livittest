@@ -15,7 +15,19 @@ namespace SimpleOAuth.UI.ViewModel
     {
         private ObservableCollection<TwitterStatus> twittertimeline;
         private bool isdataloaded;
-        public string PIN { get; set; }
+        private string pin;
+        public string PIN
+        {
+            get
+            {
+                return pin;
+            }
+            set
+            {
+                pin = value;
+                NotifyPropertyChanged("PIN");
+            }
+        }
         public ICommand PINenteredCommand { get; set; }
         private OAuthRequestToken requestToken;
         public bool IsLoaded { get; set; }
@@ -33,9 +45,10 @@ namespace SimpleOAuth.UI.ViewModel
             {
                 return isdataloaded;
             }
-            set { 
-                isdataloaded = true; 
-                NotifyPropertyChanged("Isdataloaded"); 
+            set
+            {
+                isdataloaded = true;
+                NotifyPropertyChanged("Isdataloaded");
             }
         }
         private async Task OnPINEntered()
@@ -43,11 +56,11 @@ namespace SimpleOAuth.UI.ViewModel
             OAuthAccessToken access = service.GetAccessToken(requestToken, PIN);
             // Step 4 - User authenticates using the Access Token
             service.AuthenticateWith(access.Token, access.TokenSecret);
-            IEnumerable<TwitterStatus> timeline = service.ListTweetsOnHomeTimeline(new ListTweetsOnHomeTimelineOptions() {});
+            IEnumerable<TwitterStatus> timeline = service.ListTweetsOnHomeTimeline(new ListTweetsOnHomeTimelineOptions() { });
             Twittertimeline = new ObservableCollection<TwitterStatus>(timeline);
             Isdataloaded = true;
         }
-      
+
         public ObservableCollection<TwitterStatus> Twittertimeline
         {
             get
@@ -62,7 +75,8 @@ namespace SimpleOAuth.UI.ViewModel
         }
         private bool CanProceed()
         {
-            return !String.IsNullOrEmpty(this.PIN);
+
+            return true;
         }
 
     }
