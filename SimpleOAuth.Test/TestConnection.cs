@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AvalonUnitTesting;
 using SimpleOAuth.UI;
 using System.Windows;
 using NUnit;
