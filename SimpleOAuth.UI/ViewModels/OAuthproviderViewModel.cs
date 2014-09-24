@@ -98,37 +98,63 @@ namespace SimpleOAuth.UI.ViewModel
             if (this.SelectedProvider == Googlebooks)
             {
                 UserCredential credential;
-
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    new ClientSecrets
-                      {
-
-                          ClientId = googleclientID,
-                          ClientSecret = googleclientsecret
-                      }
-                    ,
-                    new[] { BooksService.Scope.Books },
-                    "user", CancellationToken.None, new FileDataStore("Books.ListMyLibrary"));
-
-
-                // Create the service.
-                var service = new BooksService(new BaseClientService.Initializer()
-                    {
-                        HttpClientInitializer = credential,
-                        ApplicationName = "Test",
-                    });
-
-                var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync();
+                credential = await GetGoogleCredential();
+                var service = GetGoogleBookService(credential);
+                var bookshelves = await GetBookShelves(service);
                 Books = new ObservableCollection<Bookshelf>(bookshelves.Items);
             }
             else
             {
                 //step 1
                 var model = await GetTwitterRequestToken(twitterconsumerkey, twitterconsumersecret);
+                Process.Start(model.uri.ToString());
                 //navigate to second page
-                Twitteraccesstokenwindow twitteraccesswindow = new Twitteraccesstokenwindow(model.requestToken,model.service); 
-                Navigator.NavigationService.Navigate(twitteraccesswindow); 
+                Twitteraccesstokenwindow twitteraccesswindow = new Twitteraccesstokenwindow(model.requestToken, model.service);
+                Navigator.NavigationService.Navigate(twitteraccesswindow);
             }
+        }
+        /// <summary>
+        /// Get book shelves
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        private static async Task<Bookshelves> GetBookShelves(BooksService service)
+        {
+            var bookshelves = await service.Mylibrary.Bookshelves.List().ExecuteAsync();
+            return bookshelves;
+        }
+        /// <summary>
+        /// Get google book service
+        /// </summary>
+        /// <param name="credential"></param>
+        /// <returns></returns>
+        private static BooksService GetGoogleBookService(UserCredential credential)
+        {
+            var service = new BooksService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "Test",
+            });
+            return service;
+        }
+        /// <summary>
+        /// Get google credential
+        /// </summary>
+        /// <returns></returns>
+        public async Task<UserCredential> GetGoogleCredential()
+        {
+            UserCredential credential;
+            credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                new ClientSecrets
+                {
+
+                    ClientId = googleclientID,
+                    ClientSecret = googleclientsecret
+                }
+                ,
+                new[] { BooksService.Scope.Books },
+                "user", CancellationToken.None, new FileDataStore("Books.ListMyLibrary"));
+            return credential;
         }
         /// <summary>
         /// Get Twitter Request Token
@@ -136,13 +162,12 @@ namespace SimpleOAuth.UI.ViewModel
         /// <param name="twitterconsumerkey"></param>
         /// <param name="twitterconsumersecret"></param>
         /// <returns></returns>
-        private async Task<Twitterrequesttokenmodel> GetTwitterRequestToken(string twitterconsumerkey, string twitterconsumersecret)
+        public async Task<Twitterrequesttokenmodel> GetTwitterRequestToken(string twitterconsumerkey, string twitterconsumersecret)
         {
-            Twitterrequesttokenmodel model=new Twitterrequesttokenmodel();
+            Twitterrequesttokenmodel model = new Twitterrequesttokenmodel();
             model.service = new TwitterService(twitterconsumerkey, twitterconsumersecret);
             model.requestToken = model.service.GetRequestToken();
             model.uri = model.service.GetAuthorizationUri(model.requestToken);
-            Process.Start(model.uri.ToString());
             return model;
         }
         /// <summary>
@@ -177,6 +202,6 @@ namespace SimpleOAuth.UI.ViewModel
             }
         }
 
-      
+
     }
 }
