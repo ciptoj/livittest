@@ -12,6 +12,10 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>
+        <Label>
+            Please always press authorize/allow
+        </Label>
+        <Label>For Twitter enter your PIN on the second window and click load</Label>
         <DataGrid AutoGenerateColumns="false" ItemsSource="{Binding Books}" Visibility="{Binding Path=IsGoogle, Converter={StaticResource BooleanToVisibilityConverter}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" ></DataGridTextColumn>
