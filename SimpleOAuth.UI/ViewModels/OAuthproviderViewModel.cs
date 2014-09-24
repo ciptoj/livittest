@@ -1,4 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿
 using Google.Apis.Books.v1;
 using Google.Apis.Books.v1.Data;
 using Google.Apis.Services;
@@ -20,6 +20,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TweetSharp;
+using Google.Apis.Util.Store;
+using Google.Apis.Auth.OAuth2;
+
 
 namespace SimpleOAuth.UI.ViewModel
 {
@@ -127,7 +130,12 @@ namespace SimpleOAuth.UI.ViewModel
                 Navigator.NavigationService.Navigate(twitteraccesswindow); 
             }
         }
-
+        /// <summary>
+        /// Get Twitter Request Token
+        /// </summary>
+        /// <param name="twitterconsumerkey"></param>
+        /// <param name="twitterconsumersecret"></param>
+        /// <returns></returns>
         private async Task<Twitterrequesttokenmodel> GetTwitterRequestToken(string twitterconsumerkey, string twitterconsumersecret)
         {
             Twitterrequesttokenmodel model=new Twitterrequesttokenmodel();
